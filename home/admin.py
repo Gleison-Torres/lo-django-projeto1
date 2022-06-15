@@ -4,7 +4,7 @@ from . import models
 
 @admin.register(models.Receita)
 class ModelAdmin(admin.ModelAdmin):
-    list_display = ('title', 'recipe_category', 'active', 'create', 'modified')
+    list_display = ('title', 'author', 'recipe_category', 'active', 'create', 'modified', 'slug')
 
 
 @admin.register(models.Category)

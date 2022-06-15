@@ -1,5 +1,7 @@
 from django.db import models
 from stdimage import StdImageField
+from django.contrib.auth.models import User
+from autoslug import AutoSlugField
 
 
 class Category(models.Model):
@@ -23,6 +25,7 @@ class Base(models.Model):
 
 
 class Receita(Base):
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Criador')
     title = models.CharField('Titulo', max_length=50)
     description = models.TextField('Descrição', max_length=250)
     time_recipe = models.PositiveIntegerField('Preparo')
@@ -31,6 +34,7 @@ class Receita(Base):
     order = models.PositiveIntegerField('Porções')
     step = models.TextField('Passo a passo', max_length=3000)
     recipe_category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name='Categoria')
+    slug = AutoSlugField(populate_from='title')
 
     def __str__(self):
         return self.title

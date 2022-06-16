@@ -2,7 +2,7 @@ from django.contrib import admin
 from . import models
 
 
-@admin.register(models.Receita)
+@admin.register(models.Recipe)
 class ModelAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'recipe_category', 'active', 'create', 'modified', 'slug')
 

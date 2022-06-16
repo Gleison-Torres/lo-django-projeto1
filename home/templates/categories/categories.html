@@ -2,6 +2,8 @@
     <div class="main-content main-content-list container">
 
         <!---Initial recipe--->
+
+
         {% for recipe in recipes %}
         <div class="recipe recipe-list-item">
             <div class="recipe-cover">
@@ -54,7 +56,7 @@
                 <div class="recipe-meta recipe-servings">
                     <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i> Porções</h3>
                     <div class="recipe-meta-text">
-                        {{ recipe.order }} Porções
+                        {{recipe.order}} Porções
                     </div>
                 </div>
             </div>

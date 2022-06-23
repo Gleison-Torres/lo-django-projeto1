@@ -9,9 +9,6 @@ def index(request):
 
     paginator_recipes = Paginator(recipes, 6)
     page_number = request.GET.get('page')
-    print(f'numero de paginas: {paginator_recipes.num_pages}')
-    page_obj = paginator_recipes.get_page(page_number)
-    print(f'variavel: {page_obj.previous_page_number}')
 
     context = {
         'page_object': paginator_recipes.get_page(page_number)

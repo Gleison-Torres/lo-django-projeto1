@@ -34,7 +34,7 @@ class Recipe(Base):
     order = models.PositiveIntegerField('Porções')
     step = models.TextField('Passo a passo', max_length=3000)
     recipe_category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name='Categoria')
-    slug = AutoSlugField(populate_from='title')
+    slug = AutoSlugField(populate_from='title', unique=True)
 
     def __str__(self):
         return self.title

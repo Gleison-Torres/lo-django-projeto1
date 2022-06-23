@@ -1,9 +1,22 @@
 from django.shortcuts import render, Http404
 from . import models
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 def index(request):
-    context = {'recipes': models.Recipe.objects.filter(active=True)}
+    recipes = models.Recipe.objects.filter(active=True)
+
+    paginator_recipes = Paginator(recipes, 6)
+    page_number = request.GET.get('page')
+    print(f'numero de paginas: {paginator_recipes.num_pages}')
+    page_obj = paginator_recipes.get_page(page_number)
+    print(f'variavel: {page_obj.previous_page_number}')
+
+    context = {
+        'page_object': paginator_recipes.get_page(page_number)
+    }
+
     return render(request, 'home/home.html', context)
 
 
@@ -24,3 +37,14 @@ def category_recipe(request, pk):
     }
 
     return render(request, 'categories/category.html', context)
+
+
+def search_recipe(request):
+    search_term = request.GET.get('search', '').strip()
+    context = {
+        'recipes': models.Recipe.objects.filter(
+            Q(title__icontains=search_term) |
+            Q(description__icontains=search_term), active=True)
+    }
+    return render(request, 'search/search_page.html', context)
+

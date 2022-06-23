@@ -32,8 +32,8 @@
         <!---Init Search--->
         <div class="search-container">
             <div class="container">
-                <form action="" class="search-form">
-                    <input type="search" class="search-input" name="search" placeholder="Pesquisar">
+                <form action="{% url 'search' %}" method="get" class="search-form">
+                    <input type="search" class="search-input" name="search" placeholder="Pesquisar" required>
                     <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
                 </form>
             </div>

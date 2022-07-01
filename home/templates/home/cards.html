@@ -67,23 +67,30 @@
             </div>
         {% endfor %}
         {% endif %}
-
-        <div class="pagination">
-            <span class="step-links">
+    </div>
+    <div class="pagination">
+        <span class="step-links">
+            <span class="previous-page">
                 {% if page_object.has_previous %}
-                    <a href="?page=1">&laquo;primeiro</a>
                     <a href="?page={{ page_object.previous_page_number }}">anterior</a>
                 {% endif %}
+            </span>
 
-                <span class="current">
-                    Página {{ page_object.number }} de {{ page_object.paginator.num_pages }}.
-                </span>
+            <span class="current">
+                {% for page in range_page %}
+                    {% if current_page == page %}
+                        <b class="page-select">{{ current_page }}</b>
+                    {% else %}
+                        <a href="?page={{ page }}"> {{ page }} </a>
+                    {% endif %}
+                {% endfor %}
+            </span>
 
+            <span class="next-pages">
                 {% if page_object.has_next %}
-                    <a href="?page={{ page_object.next_page_number }}">próximo</a>
-                    <a href="?page={{ page_object.paginator.num_pages }}">último &raquo;</a>
+                    <a href="?page={{ page_object.next_page_number }}">Próximo</a>
                 {% endif %}
             </span>
-        </div>
+        </span>
     </div>
 </main>

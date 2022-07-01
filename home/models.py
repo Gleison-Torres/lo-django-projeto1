@@ -25,6 +25,7 @@ class Base(models.Model):
 
 
 class Recipe(Base):
+    objects = None
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Criador')
     title = models.CharField('Titulo', max_length=50)
     description = models.TextField('Descrição', max_length=250)
@@ -36,5 +37,11 @@ class Recipe(Base):
     recipe_category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name='Categoria')
     slug = AutoSlugField(populate_from='title', unique=True)
 
+    class Meta:
+        verbose_name = 'Receita'
+        verbose_name_plural = 'Receitas'
+
     def __str__(self):
         return self.title
+
+

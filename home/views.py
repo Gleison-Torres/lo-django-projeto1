@@ -40,4 +40,3 @@ def search_recipe(request):
             Q(description__icontains=search_term), active=True)
     }
     return render(request, 'search/search_page.html', context)
-

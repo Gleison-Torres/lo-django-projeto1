@@ -4,7 +4,7 @@
         <!---Initial recipe--->
 
 
-        {% for recipe in recipes %}
+        {% for recipe in page_object %}
         <div class="recipe recipe-list-item">
             <div class="recipe-cover">
                 <img src="{{ recipe.image.thumb.url }}" alt="image">
@@ -69,5 +69,35 @@
         </div>
         {% endfor %}
         <!---End recipe--->
+
     </div>
+    <div class="pagination">
+        <span class="step-links">
+            <span class="previous-page">
+                {% if page_object.has_previous %}
+                    <a href="?page=1">Primeira</a>
+                    <a href="?page={{ page_object.previous_page_number }}">Anterior</a>
+
+                {% endif %}
+            </span>
+
+            <span class="current">
+                {% for page in range_page %}
+                    {% if current_page == page %}
+                        <b class="page-select">{{ current_page }}</b>
+                    {% else %}
+                        <a href="?page={{ page }}"> {{ page }} </a>
+                    {% endif %}
+                {% endfor %}
+            </span>
+
+            <span class="next-pages">
+                {% if page_object.has_next %}
+                    <a href="?page={{ page_object.next_page_number }}">Próximo</a>
+                    <a href="?page={{ page_object.paginator.num_pages }}">Ultima</a>
+                {% endif %}
+            </span>
+        </span>
+    </div>
+
 </main>

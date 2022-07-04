@@ -8,7 +8,12 @@ from .pagination_module import PaginationRecipe
 def index(request):
     recipes = models.Recipe.objects.filter(active=True).order_by('pk')
 
-    pag = PaginationRecipe(Paginator(recipes, 6), request.GET.get('page'), list(range(1, 5)))
+    show_pages = 5
+    pages = Paginator(recipes, 6)
+    if pages.num_pages < 4:
+        show_pages = pages.num_pages + 1
+
+    pag = PaginationRecipe(pages, request.GET.get('page'), list(range(1, show_pages)))
     context = pag.make_pagination()
 
     return render(request, 'home/home.html', context)
@@ -24,11 +29,15 @@ def recipe(request, pk):
 
 
 def category_recipe(request, pk):
+    recipes = models.Recipe.objects.filter(recipe_category__pk=pk, active=True).order_by('pk')
 
-    context = {
-        'recipes': models.Recipe.objects.filter(recipe_category__pk=pk, active=True),
-        'title': models.Recipe.objects.filter(recipe_category__pk=pk).first().recipe_category
-    }
+    show_pages = 5
+    pages = Paginator(recipes, 6)
+    if pages.num_pages < 4:
+        show_pages = pages.num_pages + 1
+
+    pag = PaginationRecipe(pages, request.GET.get('page'), list(range(1, show_pages)))
+    context = pag.make_pagination()
     return render(request, 'categories/category.html', context)
 
 

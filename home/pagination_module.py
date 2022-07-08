@@ -1,10 +1,11 @@
 
 
 class PaginationRecipe:
-    def __init__(self, paginator_recipes, page_number, show_pages):
+    def __init__(self, paginator_recipes, page_number, show_pages, additional_url=''):
         self.paginator_recipes = paginator_recipes
         self.page_number = page_number
         self.show_pages = show_pages
+        self.additional_url = additional_url
 
     def make_pagination(self):
         if self.page_number is None or int(self.page_number) < 3:
@@ -12,13 +13,15 @@ class PaginationRecipe:
                 context = {
                     'page_object': self.paginator_recipes.get_page(self.page_number),
                     'range_page': self.show_pages,
+                    'additional_url': self.additional_url
                 }
                 return context
 
             context = {
                 'page_object': self.paginator_recipes.get_page(self.page_number),
                 'range_page': self.show_pages,
-                'current_page': int(self.page_number)
+                'current_page': int(self.page_number),
+                'additional_url': self.additional_url
             }
             return context
 
@@ -32,7 +35,8 @@ class PaginationRecipe:
             context = {
                 'page_object': self.paginator_recipes.get_page(self.page_number),
                 'range_page': total_pages[range_start: range_end],
-                'current_page': int(self.page_number)
+                'current_page': int(self.page_number),
+                'additional_url': self.additional_url
             }
 
             return context
@@ -40,7 +44,8 @@ class PaginationRecipe:
         context = {
             'page_object': self.paginator_recipes.get_page(self.page_number),
             'range_page': total_pages[range_start: range_end],
-            'current_page': int(self.page_number)
+            'current_page': int(self.page_number),
+            'additional_url': self.additional_url
         }
 
         return context

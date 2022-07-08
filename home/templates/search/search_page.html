@@ -1,7 +1,18 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    Resultado da pesquisa
+{% endblock %}
+
 {% block content %}
 
+    <!---Start Search Form --->
+    {% include 'search/search_form.html' %}
+
+    <!---Start content--->
     {% include 'search/search.html' %}
+
+    <!---Pagination--->
+    {% include 'pagination.html' %}
 
 {% endblock %}

@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet " href="{% static  'css/recipe-style.css' %}">
-
     <title>{% block title %}{% endblock %}</title>
 
 
@@ -28,17 +27,6 @@
             </div>
         </header>
         <!---End Nav bar--->
-
-        <!---Init Search--->
-        <div class="search-container">
-            <div class="container">
-                <form action="{% url 'search' %}" method="get" class="search-form">
-                    <input type="search" class="search-input" name="search" placeholder="Pesquisar" required>
-                    <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
-        </div>
-        <!---End search--->
 
         {% block content %}
 

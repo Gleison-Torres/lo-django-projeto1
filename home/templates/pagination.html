@@ -1,0 +1,28 @@
+<div class="pagination">
+    <span class="step-links">
+        <span class="previous-page">
+            {% if page_object.has_previous %}
+                <a href="?page=1{{ additional_url }}">Primeira</a>
+                <a href="?page={{ page_object.previous_page_number }}{{ additional_url }}">Anterior</a>
+
+            {% endif %}
+        </span>
+
+        <span class="current">
+            {% for page in range_page %}
+                {% if current_page == page %}
+                    <b class="page-select">{{ current_page }}</b>
+                {% else %}
+                    <a href="?page={{ page }}{{ additional_url }}"> {{ page }} </a>
+                {% endif %}
+            {% endfor %}
+        </span>
+
+        <span class="next-pages">
+            {% if page_object.has_next %}
+                <a href="?page={{ page_object.next_page_number }}{{ additional_url }}">Próximo</a>
+                <a href="?page={{ page_object.paginator.num_pages }}{{ additional_url }}">Ultima</a>
+            {% endif %}
+        </span>
+    </span>
+</div>

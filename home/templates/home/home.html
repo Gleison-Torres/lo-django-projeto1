@@ -4,8 +4,13 @@
 
 {% block content %}
 
-    <!---Cards--->
+    <!---Search Form --->
+    {% include 'search/search_form.html' %}
+
+    <!---Content--->
     {% include 'home/cards.html' %}
 
+    <!---Pagination--->
+    {% include 'pagination.html' %}
 
 {% endblock %}

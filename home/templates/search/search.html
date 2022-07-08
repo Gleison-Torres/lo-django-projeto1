@@ -1,11 +1,11 @@
 <main class="main-content-container">
     <div class="main-content main-content-list container">
-        {% if not recipes %}
+        {% if not page_object %}
             <div class="zero-recipe-container">
                 <h1>Nenhum resultado encontrado!</h1>
             </div>
         {% else %}
-            {% for recipe in recipes %}
+            {% for recipe in page_object %}
             <div class="recipe recipe-list-item">
                 <div class="recipe-cover">
                     <img src="{{ recipe.image.thumb.url }}" alt="image">

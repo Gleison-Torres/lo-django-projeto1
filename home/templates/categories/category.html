@@ -1,10 +1,23 @@
 {% extends 'base.html' %}
 
-{% block title %}Categoria | {{ title }}{% endblock %}
+
+{% block title %}
+
+    <!---Title--->
+    Categoria | {{ title }}
+
+{% endblock %}
 
 
 {% block content %}
 
+    <!---Search Form --->
+    {% include 'search/search_form.html' %}
+
+    <!---Content--->
     {% include 'categories/categories.html' %}
+
+    <!---Pagination--->
+    {% include 'pagination.html' %}
 
 {% endblock %}

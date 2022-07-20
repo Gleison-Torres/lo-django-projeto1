@@ -1,20 +1,37 @@
+{% if messages %}
+    {% for message in messages %}
+        <div class="message {{message.tags}}">
+            <strong>{{ message }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
 
-
+<div class="title-content container">
+  <h1>Cadastre-se</h1>
+</div>
 
 <div class="main-content container">
-    <div>
-      <h1>Cadastre-se</h1>
-    </div>
-    <form action="{% url 'register' %}" method="post">
+    <form action="{% url 'authors:create' %}" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="form-content form-content-grid">
-            {% for entry in form %}
+            {% for field in form %}
                 <div class="form-group">
-                    <p>{{ entry.label }}</p>
-                    <p>{{entry}}</p>
+                    <label>{{field.label}}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <p class="help-text">{{ field.help_text }}</p>
+                    {% endif %}
+                </div>
+                <div class="text-errors">
+                    {{ field.errors }}
                 </div>
             {% endfor %}
-            <button type="submit">Cadastrar</button>
+
+        </div>
+        <div class="form-content form-content-grid">
+            <div class="form-group">
+                <button class="button-send" type="submit">Cadastrar</button>
+            </div>
         </div>
     </form>
 </div>

@@ -7,15 +7,14 @@ class AuthorForm(forms.ModelForm):
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(attrs={'placeholder': 'Senha'}),
+        help_text='Obrigatório. Inserir pelo menos uma letra maiúscula e pelo menos um carctere especial',
         label='Senha',
-        error_messages={'required': 'password must not be empty'}
     )
 
     confirm_password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(attrs={'placeholder': 'Confirme sua senha'}),
         label='Confirme a senha',
-        error_messages={'required': 'Campo obrigatório!'}
     )
 
     class Meta:
@@ -39,12 +38,21 @@ class AuthorForm(forms.ModelForm):
     def clean_username(self):
         name_user = self.cleaned_data.get('username')
 
-        if 'F1' in name_user:
+        exist = User.objects.filter(username=name_user).exists()
+        if exist:
             raise ValidationError(
-                'Nome de usuário inválido!'
+                'Nome de usuário existente!', code='invalid'
             )
 
         return name_user
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        exist = User.objects.filter(email=email).exists()
+        if exist:
+            raise ValidationError('E-mail já cadastrado no banco de dados', code='invalid')
+        return email
 
     def clean(self):
         cleaned_data = super(AuthorForm, self).clean()
@@ -56,4 +64,31 @@ class AuthorForm(forms.ModelForm):
                 {'password': 'A senha e a confirmação da senha devem ser iguais!',
                  'confirm_password': 'A senha e a confirmação da senha devem ser iguais!'}
             )
+
+        if data_password == data_password_confirm:
+            verify_char_upper = 0
+            verify_char_special = 0
+            error_upper = 'A senha deve ter pelo menos uma ou mais letras maiúsculas!'
+            error_char_special = 'A senha deve ter pelo menos um ou mais caracteres especiais!'
+
+            for data in data_password_confirm:
+                if data.isupper():
+                    verify_char_upper += 1
+                if data in '@$%&*!':
+                    verify_char_special += 1
+            if verify_char_upper == 0 and verify_char_special == 0:
+                raise ValidationError(
+                    {'password': [error_upper, error_char_special],
+                     'confirm_password': [error_upper, error_char_special]})
+            if verify_char_upper == 0 or verify_char_special == 0:
+                if verify_char_upper == 0:
+                    raise ValidationError(
+                        {'password': error_upper,
+                         'confirm_password': error_upper}
+                    )
+                if verify_char_special == 0:
+                    raise ValidationError(
+                        {'password': error_char_special,
+                         'confirm_password': error_char_special}
+                    )
 

@@ -1,0 +1,41 @@
+{% if messages %}
+    {% for message in messages %}
+        <div class="message {{message.tags}}">
+            <strong>{{ message }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% if user.is_authenticated %}
+    <div class="main-content container">
+        <div class="form-content form-content-grid">
+            <br>
+            <h1>Logado com o usuário {{user}}</h1>
+        </div>
+        <div class="container-logout">
+            <center>
+                <form action="{% url 'authors:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Sair</button>
+                </form>
+            </center>
+        </div>
+    </div>
+
+{% else %}
+    <div class="title-login container">
+      <h1>Login</h1>
+    </div>
+
+    <div class="main-content container">
+        <form action="{% url 'authors:login_create' %}" method="post">
+            {% csrf_token %}
+            <div class="form-content form-content-grid">
+                {{ form }}
+            </div>
+            <div class="container-login">
+                <button class="button-login" type="submit">Entrar</button>
+            </div>
+        </form>
+    </div>
+{% endif %}

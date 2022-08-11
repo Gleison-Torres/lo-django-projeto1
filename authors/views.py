@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from .forms import AuthorForm
+from .forms import AuthorForm, LoginForm
 from django.http import Http404
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 def authors(request):
@@ -33,3 +35,41 @@ def authors_register_post(request):
 
     return redirect('authors:register')
 
+
+def login_authenticate(request):
+    context = {
+        'form': LoginForm()
+    }
+    return render(request, 'login/login_authors.html', context)
+
+
+def login_create(request):
+    if not request.POST:
+        raise Http404('Página não encontrada!')
+
+    form = LoginForm(request.POST)
+    if form.is_valid():
+        authenticated_user = authenticate(
+            username=form.cleaned_data.get('username'),
+            password=form.cleaned_data.get('password')
+        )
+
+        if authenticated_user is not None:
+            login(request, authenticated_user)
+            messages.success(request, 'Logado com sucesso!')
+        else:
+            messages.error(request, 'Usuário ou senha incorreto!')
+    else:
+        messages.error(request, 'Formulário incorreto')
+
+    return redirect('authors:login')
+
+
+@login_required(login_url='authors:login', redirect_field_name='next')
+def logout_user(request):
+    if request.POST:
+        logout(request)
+        messages.info(request, 'Deslogado com sucesso!')
+        return redirect('authors:login')
+    else:
+        return redirect('authors:login')

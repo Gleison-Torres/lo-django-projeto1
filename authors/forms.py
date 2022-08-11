@@ -92,3 +92,7 @@ class AuthorForm(forms.ModelForm):
                          'confirm_password': error_char_special}
                     )
 
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label='Usuário', widget=forms.TextInput(attrs={'placeholder': 'Nome de usuário'}))
+    password = forms.CharField(label='Senha', widget=forms.PasswordInput(attrs={'placeholder': 'senha'}))

@@ -10,6 +10,7 @@
   <h1>Cadastre-se</h1>
 </div>
 
+{% if user.is_authenticated %}
 <div class="main-content container">
     <form action="{% url 'authors:create' %}" method="post" autocomplete="off">
         {% csrf_token %}

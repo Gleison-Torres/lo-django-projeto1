@@ -1,0 +1,37 @@
+<div class="main-content container">
+    <div class="text-user">
+        <h1>Logado com o usuário {{user}}</h1>
+    </div>
+    <div class="table-container">
+        <table border="5">
+            <thead>
+                <tr>
+                    <th>Receitas</th>
+                    <th>Categoria</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipe in page_object %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'rec' recipe.id %}">{{recipe.title}}</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'cat' recipe.recipe_category.id %}">{{recipe.recipe_category}}</a>
+                        </td>
+                        {% if recipe.active == False %}
+                            <td id="pending-status">
+                                <strong>Pendente de aprovação</strong>
+                            </td>
+                        {% else %}
+                            <td id="approved-status">
+                                <strong>Publicado</strong>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

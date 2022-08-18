@@ -8,15 +8,16 @@
 
 {% if user.is_authenticated %}
     <div class="main-content container">
-        <div class="form-content form-content-grid">
-            <br>
+        <div class="text-user">
             <h1>Logado com o usuário {{user}}</h1>
         </div>
         <div class="container-logout">
             <center>
                 <form action="{% url 'authors:logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit">Sair</button>
+                    <button class="button-logout" type="submit">
+                        <span>Sair</span>
+                    </button>
                 </form>
             </center>
         </div>
@@ -34,7 +35,9 @@
                 {{ form }}
             </div>
             <div class="container-login">
-                <button class="button-login" type="submit">Entrar</button>
+                <button class="button-login" type="submit">
+                    <span>Entrar</span>
+                </button>
             </div>
         </form>
     </div>

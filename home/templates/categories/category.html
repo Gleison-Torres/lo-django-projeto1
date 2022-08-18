@@ -3,21 +3,20 @@
 
 {% block title %}
 
-    <!---Title--->
-    Categoria | {{ title }}
+    Categoria
 
 {% endblock %}
 
 
 {% block content %}
 
-    <!---Search Form --->
+    <!--- Search Form --->
     {% include 'search/search_form.html' %}
 
-    <!---Content--->
+    <!--- Content --->
     {% include 'categories/categories.html' %}
 
-    <!---Pagination--->
+    <!--- Pagination --->
     {% include 'pagination.html' %}
 
 {% endblock %}

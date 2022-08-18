@@ -24,7 +24,7 @@ def recipe(request, pk):
     try:
         context = {'recipe': models.Recipe.objects.get(id=pk, active=True)}
     except Exception:
-        raise Http404()
+        raise Http404('Página não existe ou receita ainda não foi aprovada pela administração!')
     return render(request, 'recipe_page/recipe_page.html', context)
 
 

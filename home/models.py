@@ -16,7 +16,7 @@ class Category(models.Model):
 
 
 class Base(models.Model):
-    active = models.BooleanField('Ativo:', default=True)
+    active = models.BooleanField('Publicado:', default=False)
     create = models.DateField('Criado', auto_now_add=True)
     modified = models.DateField('Modificado', auto_now=True)
 

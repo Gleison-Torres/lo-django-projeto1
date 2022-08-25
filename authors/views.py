@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from home.models import Recipe
-from django.core.paginator import Paginator
 from home.pagination_module import PaginationRecipe
 
 
@@ -80,14 +79,36 @@ def logout_user(request):
 
 @login_required(login_url='authors:login', redirect_field_name='next')
 def dashboard_user(request):
-    recipes = Recipe.objects.filter(author=request.user)
-    show_pages = 5
-    pages = Paginator(recipes, 10)
-    if pages.num_pages < 4:
-        show_pages = pages.num_pages + 1
-
-    pag = PaginationRecipe(pages, request.GET.get('page'), list(range(1, show_pages)))
+    recipes = Recipe.objects.filter(author=request.user).order_by('pk')
+    pag = PaginationRecipe(recipes, request.GET.get('page'))
     context = pag.make_pagination()
 
     return render(request, 'dashboard/dashboard_authors.html', context)
 
+
+@login_required(login_url='authors:login', redirect_field_name='next')
+def dashboard_user_category(request, pk):
+    recipes = Recipe.objects.filter(author=request.user, recipe_category__pk=pk).order_by('pk')
+
+    pag = PaginationRecipe(recipes, request.GET.get('page'))
+    context = pag.make_pagination()
+
+    return render(request, 'dashboard/dashboard_authors.html', context)
+
+
+@login_required(login_url='authors:login', redirect_field_name='next')
+def dashboard_pending(request):
+    recipes = Recipe.objects.filter(author=request.user, active=False).order_by('pk')
+    pag = PaginationRecipe(recipes, request.GET.get('page'))
+    context = pag.make_pagination()
+
+    return render(request, 'dashboard/dashboard_authors.html', context)
+
+
+@login_required(login_url='authors:login', redirect_field_name='next')
+def dashboard_approved(request):
+    recipes = Recipe.objects.filter(author=request.user, active=True).order_by('pk')
+    pag = PaginationRecipe(recipes, request.GET.get('page'))
+    context = pag.make_pagination()
+
+    return render(request, 'dashboard/dashboard_authors.html', context)

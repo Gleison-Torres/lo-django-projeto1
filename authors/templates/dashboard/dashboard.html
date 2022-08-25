@@ -1,8 +1,30 @@
 <div class="main-content container">
+
     <div class="text-user">
         <h1>Logado com o usuário {{user}}</h1>
     </div>
+    <div class="menu-dashboard">
+        <form method="post" action="{% url 'authors:dashboard' %}">
+            {% csrf_token %}
+            <div class="buttons-dashboard">
+                <input class="btn-dash" type="submit" name="all" value="Todos">
+            </div>
+        </form>
+        <form method="post" action="{% url 'authors:approved' %}">
+            {% csrf_token %}
+            <div class="buttons-dashboard">
+                <input class="btn-dash" type="submit" name="approved" value="Aprovados">
+            </div>
+        </form>
+        <form method="post" action="{% url 'authors:pending' %}">
+            {% csrf_token %}
+            <div class="buttons-dashboard">
+                <input class="btn-dash" type="submit" name="pending" value="Pendentes">
+            </div>
+        </form>
+    </div>
     <div class="table-container">
+        {% if page_object %}
         <table border="5">
             <thead>
                 <tr>
@@ -11,14 +33,16 @@
                     <th>Status</th>
                 </tr>
             </thead>
+
             <tbody>
                 {% for recipe in page_object %}
+
                     <tr>
                         <td>
                             <a href="{% url 'rec' recipe.id %}">{{recipe.title}}</a>
                         </td>
                         <td>
-                            <a href="{% url 'cat' recipe.recipe_category.id %}">{{recipe.recipe_category}}</a>
+                            <a href="{% url 'authors:category' recipe.recipe_category.id %}">{{recipe.recipe_category}}</a>
                         </td>
                         {% if recipe.active == False %}
                             <td id="pending-status">
@@ -33,5 +57,12 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+            <div class="text-user">
+                <h1>Nada a exibir</h1>
+            </div>
+        {% endif %}
     </div>
 </div>
+
+{% include 'pagination.html' %}

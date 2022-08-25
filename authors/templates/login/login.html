@@ -12,14 +12,12 @@
             <h1>Logado com o usuário {{user}}</h1>
         </div>
         <div class="container-logout">
-            <center>
-                <form action="{% url 'authors:logout' %}" method="post">
-                    {% csrf_token %}
-                    <button class="button-logout" type="submit">
-                        <span>Sair</span>
-                    </button>
-                </form>
-            </center>
+            <form action="{% url 'authors:logout' %}" method="post">
+                {% csrf_token %}
+                <button class="button-logout" type="submit">
+                    <span>Sair</span>
+                </button>
+            </form>
         </div>
     </div>
 

@@ -7,11 +7,12 @@
 {% endif %}
 
 <div class="title-content container">
-  <h1>Cadastre-se</h1>
+    <h1>Crie suas receitas</h1>
 </div>
 
-<div class="main-content container">
-    <form action="{% url 'authors:create' %}" method="post" autocomplete="off">
+
+<div class="user-recipe-container">
+    <form action="{% url 'authors:recipe_post' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-content form-content-grid">
             {% for field in form %}
@@ -19,18 +20,15 @@
                     <label>{{field.label}}</label>
                     {{ field }}
                     {% if field.help_text %}
-                        <p class="help-text">{{ field.help_text }}</p>
+                    <p class="help-text">{{ field.help_text }}</p>
                     {% endif %}
                 </div>
-                <div class="text-errors">
-                    {{ field.errors }}
-                </div>
-            {% endfor %}
 
+            {% endfor %}
         </div>
         <div class="form-content form-content-grid">
             <div class="form-group">
-                <button class="button-send" type="submit">Cadastrar</button>
+                <button class="button-send" type="submit">Enviar</button>
             </div>
         </div>
     </form>

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import AuthorForm, LoginForm
+from .forms import AuthorForm, LoginForm, UserRecipeForm
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -9,12 +9,16 @@ from home.pagination_module import PaginationRecipe
 
 
 def authors(request):
-    register = request.session.get('register_form_data', None)
-    form = AuthorForm(register)
-    context = {
-        'form': form
-    }
-    return render(request, 'register/register_authors.html', context)
+    if request.user.is_authenticated:
+        return redirect('authors:login')
+    else:
+        register = request.session.get('register_form_data', None)
+        form = AuthorForm(register)
+        context = {
+            'form': form
+        }
+
+        return render(request, 'register/register_authors.html', context)
 
 
 def authors_register_post(request):
@@ -112,3 +116,38 @@ def dashboard_approved(request):
     context = pag.make_pagination()
 
     return render(request, 'dashboard/dashboard_authors.html', context)
+
+
+@login_required(login_url='authors:login', redirect_field_name='next')
+def sending_recipe(request):
+    register = request.session.get('register_form_data')
+
+    form = UserRecipeForm(register)
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'sending_recipe/sending_recipe_authors.html', context)
+
+
+def sending_recipe_post(request):
+    if not request.POST:
+        raise Http404('Página não encontrada!')
+    request.session['register_form_data'] = request.POST
+
+    form = UserRecipeForm(request.POST, request.FILES)
+    if form.is_valid():
+        database_form = form.save(commit=False)
+
+        database_form.author = request.user
+        database_form.save()
+
+        messages.success(request, 'Sua receita foi enviada com sucesso e será analisada para aprovação em até 2 dias!')
+
+        return redirect('authors:recipe')
+
+    messages.error(request, 'Erro ao enviar formulário')
+    return redirect('authors:recipe')
+
+

@@ -1,13 +1,14 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from home.models import Recipe
 
 
 class AuthorForm(forms.ModelForm):
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(attrs={'placeholder': 'Senha'}),
-        help_text='Obrigatório. Inserir pelo menos uma letra maiúscula e pelo menos um carctere especial',
+        help_text='Obrigatório. Inserir pelo menos uma letra maiúscula e pelo menos um caractere especial',
         label='Senha',
     )
 
@@ -96,3 +97,10 @@ class AuthorForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(label='Usuário', widget=forms.TextInput(attrs={'placeholder': 'Nome de usuário'}))
     password = forms.CharField(label='Senha', widget=forms.PasswordInput(attrs={'placeholder': 'senha'}))
+
+
+class UserRecipeForm(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ('author', 'title', 'description', 'time_recipe', 'image', 'order', 'step', 'recipe_category')
+        widgets = {'author': forms.HiddenInput()}

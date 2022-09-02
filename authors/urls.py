@@ -12,5 +12,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard_user, name='dashboard'),
     path('dashboard/approved/', views.dashboard_approved, name='approved'),
     path('dashboard/pending/', views.dashboard_pending, name='pending'),
-    path('dashboard/category/<int:pk>/', views.dashboard_user_category, name='category')
+    path('dashboard/category/<int:pk>/', views.dashboard_user_category, name='category'),
+    path('recipe/', views.sending_recipe, name='recipe'),
+    path('recipe/send/', views.sending_recipe_post, name='recipe_post')
 ]

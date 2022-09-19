@@ -8,7 +8,7 @@ class AuthorForm(forms.ModelForm):
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(attrs={'placeholder': 'Senha'}),
-        help_text='Obrigatório. Inserir pelo menos uma letra maiúscula e pelo menos um caractere especial',
+        help_text='Obrigatório. Inserir pelo menos uma letra maiúscula e pelo menos um carácter especial',
         label='Senha',
     )
 
@@ -102,5 +102,7 @@ class LoginForm(forms.Form):
 class UserRecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ('author', 'title', 'description', 'time_recipe', 'image', 'order', 'step', 'recipe_category')
-        widgets = {'author': forms.HiddenInput()}
+        fields = ('recipe_category', 'title', 'time_recipe', 'order', 'description', 'step', 'image')
+
+        widgets = {'image': forms.FileInput()}
+

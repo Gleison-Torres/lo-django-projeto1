@@ -39,7 +39,7 @@
 
                     <tr>
                         <td>
-                            <a href="{% url 'rec' recipe.id %}">{{recipe.title}}</a>
+                            <a href="{% url 'authors:edit' recipe.id %}">{{recipe.title}}</a>
                         </td>
                         <td>
                             <a href="{% url 'authors:category' recipe.recipe_category.id %}">{{recipe.recipe_category}}</a>

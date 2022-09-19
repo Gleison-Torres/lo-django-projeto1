@@ -26,7 +26,7 @@ class Base(models.Model):
 
 class Recipe(Base):
     objects = None
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='')
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Criador')
     title = models.CharField('Titulo', max_length=50)
     description = models.TextField('Descrição', max_length=250)
     time_recipe = models.PositiveIntegerField('Preparo')

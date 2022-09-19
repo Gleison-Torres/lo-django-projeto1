@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .forms import AuthorForm, LoginForm, UserRecipeForm
 from django.http import Http404
 from django.contrib import messages
@@ -36,6 +36,7 @@ def authors_register_post(request):
         user_data = form.save(commit=False)
         user_data.set_password(user_data.password)
         user_data.save()
+
         messages.success(request, 'Cadastro efetuado com sucesso!')
         del(request.session['register_form_data'])
 
@@ -123,7 +124,6 @@ def sending_recipe(request):
     register = request.session.get('register_form_data')
 
     form = UserRecipeForm(register)
-
     context = {
         'form': form
     }
@@ -138,10 +138,12 @@ def sending_recipe_post(request):
 
     form = UserRecipeForm(request.POST, request.FILES)
     if form.is_valid():
+
         database_form = form.save(commit=False)
 
         database_form.author = request.user
         database_form.save()
+        del(request.session['register_form_data'])
 
         messages.success(request, 'Sua receita foi enviada com sucesso e será analisada para aprovação em até 2 dias!')
 
@@ -149,5 +151,41 @@ def sending_recipe_post(request):
 
     messages.error(request, 'Erro ao enviar formulário')
     return redirect('authors:recipe')
+
+
+@login_required(login_url='authors:login', redirect_field_name='next')
+def dashboard_edit_recipe(request, pk):
+
+    recipe = Recipe.objects.get(id=pk, author=request.user)
+    form = UserRecipeForm(request.POST or None, request.FILES or None, instance=recipe)
+
+    context = {'form': form,
+               'r': recipe}
+
+    if request.POST:
+
+        if form.is_valid():
+            database_form = form.save(commit=False)
+            database_form.author = request.user
+
+            database_form.save()
+
+            messages.success(request,
+                             'Sua receita foi enviada com sucesso e será analisada para aprovação em até 2 dias!')
+
+            return redirect(reverse('authors:edit', args=(pk,)))
+        else:
+            messages.error(request, 'Formulário incorreto')
+            return render(request, 'edit_recipe/edit_recipe_page.html', context)
+
+    else:
+
+        if recipe.active:
+            messages.info(request, 'Receitas publicadas não podem ser editadas após a aprovação!')
+            return render(request, 'authors_recipe/authors_recipe_authors.html', context)
+
+        else:
+            return render(request, 'edit_recipe/edit_recipe_page.html', context)
+
 
 

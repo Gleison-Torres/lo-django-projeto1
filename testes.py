@@ -1,4 +1,8 @@
-lista = ['A', 'B', 'C', 'D', 'E', 'F']
+valor = {'receita': 'Morango'}
 
-for n in lista:
-    print(n)
+v = valor.get('receita')
+
+if not v:
+    print('NONE')
+else:
+    print('not none')

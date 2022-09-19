@@ -12,16 +12,24 @@
 
 
 <div class="user-recipe-container">
-    <form action="{% url 'authors:recipe_post' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'authors:edit' r.pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-content form-content-grid">
             {% for field in form %}
                 <div class="form-group">
                     <label>{{field.label}}</label>
+                    {% if field.name == 'image' and field.value.url %}
+                        <div class="cover-container">
+                            <img src="{{ field.value.url }}" alt="Imagem">
+                        </div>
+                    {% endif %}
                     {{ field }}
                     {% if field.help_text %}
                         <p class="help-text">{{ field.help_text }}</p>
                     {% endif %}
+                </div>
+                <div class="text-errors">
+                    {{ field.errors }}
                 </div>
             {% endfor %}
         </div>

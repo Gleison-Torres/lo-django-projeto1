@@ -188,4 +188,11 @@ def dashboard_edit_recipe(request, pk):
             return render(request, 'edit_recipe/edit_recipe_page.html', context)
 
 
-
+@login_required(login_url='authors:login', redirect_field_name='next')
+def dashboard_delete_recipe(request, pk):
+    if not request.POST:
+        raise Http404('pagina não encontrada!')
+    recipe = Recipe.objects.get(id=pk)
+    recipe.delete()
+    messages.success(request, 'Receita deletada com sucesso!')
+    return redirect(reverse('authors:dashboard'))

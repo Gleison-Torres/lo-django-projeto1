@@ -15,5 +15,6 @@ urlpatterns = [
     path('dashboard/category/<int:pk>/', views.dashboard_user_category, name='category'),
     path('recipe/', views.sending_recipe, name='recipe'),
     path('recipe/send/', views.sending_recipe_post, name='recipe_post'),
-    path('dashboard/recipe/<int:pk>/edit', views.dashboard_edit_recipe, name='edit'),
+    path('dashboard/recipe/<int:pk>/edit/', views.dashboard_edit_recipe, name='edit'),
+    path('dashboard/recipe/<int:pk>/delete/', views.dashboard_delete_recipe, name='delete')
 ]

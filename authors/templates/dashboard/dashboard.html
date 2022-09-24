@@ -1,3 +1,11 @@
+{% if messages %}
+    {% for message in messages %}
+        <div class="message {{message.tags}}">
+            <strong>{{ message }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
 <div class="main-content container">
 
     <div class="text-user">
@@ -31,6 +39,7 @@
                     <th>Receitas</th>
                     <th>Categoria</th>
                     <th>Status</th>
+                    <th>Deletar</th>
                 </tr>
             </thead>
 
@@ -53,6 +62,12 @@
                                 <strong>Publicado</strong>
                             </td>
                         {% endif %}
+                        <td>
+                            <form class="delete-recipe" action="{% url 'authors:delete' recipe.pk %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn-delete" type="submit">❌</button>
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

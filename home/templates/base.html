@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{% static  'css/recipe-style.css' %}">
     <title>{% block title %}{% endblock %}</title>
 
-
     <body>
         <!---Init Nav bar--->
         <header class="main-header-container">
@@ -27,6 +26,17 @@
             </div>
         </header>
         <!---End Nav bar--->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message {{message.tags}}">
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!---Menu bar--->
+            {% include 'menu.html' %}
+        <!---End menu bar--->
 
         {% block content %}
 

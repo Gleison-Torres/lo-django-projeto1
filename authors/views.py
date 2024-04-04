@@ -170,8 +170,10 @@ def dashboard_edit_recipe(request, pk):
 
             database_form.save()
 
-            messages.success(request,
-                             'Sua receita foi enviada com sucesso e será analisada para aprovação em até 2 dias!')
+            messages.success(
+                request,
+                'Sua receita foi enviada com sucesso e será analisada para aprovação em até 2 dias!'
+            )
 
             return redirect(reverse('authors:edit', args=(pk,)))
         else:

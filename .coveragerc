@@ -1,0 +1,6 @@
+[run]
+
+branch = True
+omit = venv/*,**/*test*.py,
+        manage.py, projeto/*, authors\__init__.py, authors\admin.py, authors\apps.py, authors\migrations\*,
+        home\__init__.py, home\admin.py, home\apps.py, home\migrations\*

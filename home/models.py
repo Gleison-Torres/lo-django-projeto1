@@ -5,6 +5,7 @@ from autoslug import AutoSlugField
 
 
 class Category(models.Model):
+    objects = None
     name = models.CharField('Nome', max_length=30)
 
     class Meta:
